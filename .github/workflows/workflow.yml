@@ -1,0 +1,83 @@
+name: Go
+
+on: [push, pull_request]
+
+
+jobs:
+
+  lint:
+    name: Linters
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: latest
+  
+    - name: Install dependencies
+      run: |
+        go version
+        go get -u golang.org/x/lint/golint
+
+    - name: Run Vet & Lint
+      run: |
+        go vet .
+        golint -set_exit_status=1 .
+
+  build:
+    name: Build with ${{ matrix.goVersion }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: [lint]
+    strategy:
+      matrix:
+        goVersion: [1.14, 1.15]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: ${{ matrix.goVersion }}
+
+    - name: Build
+      run: go build -v ./...
+  
+  coverage:
+    name: Tests on latest Go version with coverage
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: latest
+    
+    - name: Test With Coverage
+      run: go test -v  -coverprofile=coverage.txt -covermode=atomic ./...
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+
+  test:
+    name: Test with ${{ matrix.goVersion }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: [build]
+    strategy:
+      matrix:
+        goVersion: [1.14, 1.15]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: ${{ matrix.goVersion }}
+
+    - name: Test
+      run: go test -v ./...

@@ -1,4 +1,4 @@
-package kuzzle_basic_auth
+package kuzzlebasicauth
 
 import (
 	"context"
@@ -14,7 +14,7 @@ func TestConfig_Check(t *testing.T) {
 			Host string `json:"host,omitempty"`
 			Port uint   `json:"port,omitempty"`
 			Ssl  bool   `json:"ssl,omitempty"`
-			Url  string
+			URL  string
 		} `json:"kuzzle,omitempty"`
 		BasicAuth struct {
 			User     string `json:"user,omitempty"`
@@ -33,7 +33,7 @@ func TestConfig_Check(t *testing.T) {
 					Host string `json:"host,omitempty"`
 					Port uint   `json:"port,omitempty"`
 					Ssl  bool   `json:"ssl,omitempty"`
-					Url  string
+					URL  string
 				}{
 					Host: "localhost",
 					Port: 7512,
@@ -56,7 +56,7 @@ func TestConfig_Check(t *testing.T) {
 					Host string `json:"host,omitempty"`
 					Port uint   `json:"port,omitempty"`
 					Ssl  bool   `json:"ssl,omitempty"`
-					Url  string
+					URL  string
 				}{
 					Host: "",
 					Port: 7512,
@@ -79,7 +79,7 @@ func TestConfig_Check(t *testing.T) {
 					Host string `json:"host,omitempty"`
 					Port uint   `json:"port,omitempty"`
 					Ssl  bool   `json:"ssl,omitempty"`
-					Url  string
+					URL  string
 				}{
 					Host: "localhost",
 					Port: 7512,
@@ -102,7 +102,7 @@ func TestConfig_Check(t *testing.T) {
 					Host string `json:"host,omitempty"`
 					Port uint   `json:"port,omitempty"`
 					Ssl  bool   `json:"ssl,omitempty"`
-					Url  string
+					URL  string
 				}{
 					Host: "localhost",
 					Port: 7512,
@@ -127,7 +127,7 @@ func TestConfig_Check(t *testing.T) {
 				BasicAuth: tt.fields.BasicAuth,
 			}
 
-			if err := c.Check(); (err != nil) != tt.wantErr {
+			if err := c.check(); (err != nil) != tt.wantErr {
 				t.Errorf("Config.Check() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -140,7 +140,7 @@ func TestConfig_PingKuzzle(t *testing.T) {
 			Host string `json:"host,omitempty"`
 			Port uint   `json:"port,omitempty"`
 			Ssl  bool   `json:"ssl,omitempty"`
-			Url  string
+			URL  string
 		} `json:"kuzzle,omitempty"`
 		BasicAuth struct {
 			User     string `json:"user,omitempty"`
@@ -165,7 +165,7 @@ func TestConfig_PingKuzzle(t *testing.T) {
 					Host string `json:"host,omitempty"`
 					Port uint   `json:"port,omitempty"`
 					Ssl  bool   `json:"ssl,omitempty"`
-					Url  string
+					URL  string
 				}{
 					Host: "localhost",
 					Port: 7512,
@@ -193,7 +193,7 @@ func TestConfig_PingKuzzle(t *testing.T) {
 					Host string `json:"host,omitempty"`
 					Port uint   `json:"port,omitempty"`
 					Ssl  bool   `json:"ssl,omitempty"`
-					Url  string
+					URL  string
 				}{
 					Host: "localhost",
 					Port: 7512,
@@ -221,7 +221,7 @@ func TestConfig_PingKuzzle(t *testing.T) {
 					Host string `json:"host,omitempty"`
 					Port uint   `json:"port,omitempty"`
 					Ssl  bool   `json:"ssl,omitempty"`
-					Url  string
+					URL  string
 				}{
 					Host: "nowhere",
 					Port: 7512,
@@ -255,7 +255,7 @@ func TestConfig_PingKuzzle(t *testing.T) {
 				BasicAuth: tt.fields.BasicAuth,
 			}
 
-			got, err := PingKuzzle(c)
+			got, err := pingKuzzle(c)
 
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Config.PingKuzzle() error = %v, wantErr %v", err, tt.wantErr)
@@ -304,12 +304,12 @@ func TestKuzzleBasicAuth_loginToKuzzleIsSuccessful(t *testing.T) {
 						Host string `json:"host,omitempty"`
 						Port uint   `json:"port,omitempty"`
 						Ssl  bool   `json:"ssl,omitempty"`
-						Url  string
+						URL  string
 					}{
 						Host: "localhost",
 						Port: 7512,
 						Ssl:  true,
-						Url:  "https://localhost:7512",
+						URL:  "https://localhost:7512",
 					},
 					BasicAuth: struct {
 						User     string `json:"user,omitempty"`
@@ -342,12 +342,12 @@ func TestKuzzleBasicAuth_loginToKuzzleIsSuccessful(t *testing.T) {
 						Host string `json:"host,omitempty"`
 						Port uint   `json:"port,omitempty"`
 						Ssl  bool   `json:"ssl,omitempty"`
-						Url  string
+						URL  string
 					}{
 						Host: "localhost",
 						Port: 7512,
 						Ssl:  true,
-						Url:  "https://localhost:7512",
+						URL:  "https://localhost:7512",
 					},
 					BasicAuth: struct {
 						User     string `json:"user,omitempty"`
@@ -370,7 +370,7 @@ func TestKuzzleBasicAuth_loginToKuzzleIsSuccessful(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.mock.enabled {
 				defer gock.Off()
-				gock.New(tt.fields.config.Kuzzle.Url).Post("/_login/local").Reply(tt.mock.status)
+				gock.New(tt.fields.config.Kuzzle.URL).Post("/_login/local").Reply(tt.mock.status)
 			}
 
 			k := &KuzzleBasicAuth{
@@ -417,7 +417,7 @@ func TestNew(t *testing.T) {
 						Host string `json:"host,omitempty"`
 						Port uint   `json:"port,omitempty"`
 						Ssl  bool   `json:"ssl,omitempty"`
-						Url  string
+						URL  string
 					}{
 						Host: "localhost",
 						Port: 7512,
@@ -452,7 +452,7 @@ func TestNew(t *testing.T) {
 						Host string `json:"host,omitempty"`
 						Port uint   `json:"port,omitempty"`
 						Ssl  bool   `json:"ssl,omitempty"`
-						Url  string
+						URL  string
 					}{
 						Host: "",
 						Port: 7512,
@@ -487,7 +487,7 @@ func TestNew(t *testing.T) {
 						Host string `json:"host,omitempty"`
 						Port uint   `json:"port,omitempty"`
 						Ssl  bool   `json:"ssl,omitempty"`
-						Url  string
+						URL  string
 					}{
 						Host: "localhost",
 						Port: 7512,
@@ -513,7 +513,7 @@ func TestNew(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.mock.enabled {
 				defer gock.Off()
-				gock.New(tt.args.config.Kuzzle.Url).Get("/_publicApi").Reply(tt.mock.status)
+				gock.New(tt.args.config.Kuzzle.URL).Get("/_publicApi").Reply(tt.mock.status)
 			}
 
 			_, err := New(tt.args.ctx, tt.args.next, tt.args.config, tt.args.name)

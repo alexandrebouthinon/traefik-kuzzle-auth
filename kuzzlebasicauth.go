@@ -1,4 +1,4 @@
-package kuzzle_basic_auth
+package kuzzlebasicauth
 
 import (
 	"bytes"
@@ -8,12 +8,13 @@ import (
 	"net/http"
 )
 
+// Config the plugin configuration.
 type Config struct {
 	Kuzzle struct {
 		Host string `json:"host,omitempty"`
 		Port uint   `json:"port,omitempty"`
 		Ssl  bool   `json:"ssl,omitempty"`
-		Url  string
+		URL  string
 	} `json:"kuzzle,omitempty"`
 	BasicAuth struct {
 		User     string `json:"user,omitempty"`
@@ -21,17 +22,19 @@ type Config struct {
 	} `json:"basic-auth,omitempty"`
 }
 
+// CreateConfig creates the default plugin configuration.
 func CreateConfig() *Config {
 	return &Config{}
 }
 
+// KuzzleBasicAuth a plugin to use Kuzzle as authentication provider for Basic Auth Traefik middleware.
 type KuzzleBasicAuth struct {
 	next   http.Handler
 	name   string
 	config *Config
 }
 
-func (c *Config) Check() error {
+func (c *Config) check() error {
 	if c.Kuzzle.Host == "" {
 		return fmt.Errorf("You need to set proper value for 'host' field in 'kuzzle' configuration part")
 	}
@@ -43,7 +46,7 @@ func (c *Config) Check() error {
 	return nil
 }
 
-func PingKuzzle(c *Config) (string, error) {
+func pingKuzzle(c *Config) (string, error) {
 	proto := "http"
 
 	if c.Kuzzle.Ssl == true {
@@ -57,16 +60,17 @@ func PingKuzzle(c *Config) (string, error) {
 	return url, err
 }
 
+// New created a new KuzzleBasicAuth plugin.
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
-	if err := config.Check(); err != nil {
+	if err := config.check(); err != nil {
 		return nil, fmt.Errorf("Error during configuration check: %v", err)
 	}
 
-	url, err := PingKuzzle(config)
+	url, err := pingKuzzle(config)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to reach Kuzzle server at %s: %v", url, err)
 	}
-	config.Kuzzle.Url = url
+	config.Kuzzle.URL = url
 
 	return &KuzzleBasicAuth{
 		next:   next,
@@ -96,10 +100,10 @@ func (k *KuzzleBasicAuth) loginToKuzzleIsSuccessful(user string, password string
 		"password": password,
 	})
 
-	loginRoute := fmt.Sprintf("%s/_login/local", k.config.Kuzzle.Url)
+	loginRoute := fmt.Sprintf("%s/_login/local", k.config.Kuzzle.URL)
 
 	if _, err := http.Post(loginRoute, "application/json", bytes.NewBuffer(reqBody)); err != nil {
-		return false, fmt.Errorf("Authentication request send to %s failed: %v", k.config.Kuzzle.Url, err)
+		return false, fmt.Errorf("Authentication request send to %s failed: %v", k.config.Kuzzle.URL, err)
 	}
 
 	return true, nil

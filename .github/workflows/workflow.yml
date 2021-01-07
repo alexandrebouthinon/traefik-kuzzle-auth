@@ -1,4 +1,4 @@
-name: Go
+name: Go Workflow
 
 on: [push, pull_request]
 
@@ -14,7 +14,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: latest
+        go-version: 1.15
   
     - name: Install dependencies
       run: |
@@ -55,7 +55,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: latest
+        go-version: 1.15
     
     - name: Test With Coverage
       run: go test -v  -coverprofile=coverage.txt -covermode=atomic ./...

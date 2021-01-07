@@ -153,6 +153,10 @@ func TestConfig_PingKuzzle(t *testing.T) {
 		want    string
 		wantErr bool
 		useMock bool
+		mock    struct {
+			enabled bool
+			status  int
+		}
 	}{
 		{
 			name: "Kuzzle HTTP ping successful",
@@ -177,7 +181,10 @@ func TestConfig_PingKuzzle(t *testing.T) {
 			},
 			wantErr: false,
 			want:    "http://localhost:7512",
-			useMock: true,
+			mock: struct {
+				enabled bool
+				status  int
+			}{enabled: true, status: 200},
 		},
 		{
 			name: "Kuzzle HTTPS ping successful",
@@ -202,7 +209,10 @@ func TestConfig_PingKuzzle(t *testing.T) {
 			},
 			wantErr: false,
 			want:    "https://localhost:7512",
-			useMock: true,
+			mock: struct {
+				enabled bool
+				status  int
+			}{enabled: true, status: 200},
 		},
 		{
 			name: "Kuzzle HTTPS ping failure",
@@ -227,14 +237,17 @@ func TestConfig_PingKuzzle(t *testing.T) {
 			},
 			wantErr: true,
 			want:    "https://nowhere:7512",
-			useMock: false,
+			mock: struct {
+				enabled bool
+				status  int
+			}{enabled: false},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.useMock {
+			if tt.mock.enabled {
 				defer gock.Off()
-				gock.New(tt.want).Get("/_public").Reply(200)
+				gock.New(tt.want).Get("/_public").Reply(tt.mock.status)
 			}
 
 			c := &Config{
@@ -266,13 +279,15 @@ func TestKuzzleBasicAuth_loginToKuzzleIsSuccessful(t *testing.T) {
 		password string
 	}
 	tests := []struct {
-		name           string
-		fields         fields
-		args           args
-		want           bool
-		wantErr        bool
-		useMock        bool
-		mockStatusCode int
+		name    string
+		fields  fields
+		args    args
+		want    bool
+		wantErr bool
+		mock    struct {
+			enabled bool
+			status  int
+		}
 	}{
 		{
 			name: "Kuzzle login successful",
@@ -305,10 +320,12 @@ func TestKuzzleBasicAuth_loginToKuzzleIsSuccessful(t *testing.T) {
 					},
 				},
 			},
-			wantErr:        false,
-			want:           true,
-			useMock:        true,
-			mockStatusCode: 200,
+			wantErr: false,
+			want:    true,
+			mock: struct {
+				enabled bool
+				status  int
+			}{enabled: true, status: 200},
 		},
 		{
 			name: "Kuzzle login failure: unreachable",
@@ -343,14 +360,17 @@ func TestKuzzleBasicAuth_loginToKuzzleIsSuccessful(t *testing.T) {
 			},
 			wantErr: true,
 			want:    false,
-			useMock: false,
+			mock: struct {
+				enabled bool
+				status  int
+			}{enabled: false},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.useMock {
+			if tt.mock.enabled {
 				defer gock.Off()
-				gock.New(tt.fields.config.Kuzzle.Url).Post("/_login/local").Reply(tt.mockStatusCode)
+				gock.New(tt.fields.config.Kuzzle.Url).Post("/_login/local").Reply(tt.mock.status)
 			}
 
 			k := &KuzzleBasicAuth{
@@ -378,11 +398,13 @@ func TestNew(t *testing.T) {
 		name   string
 	}
 	tests := []struct {
-		name           string
-		args           args
-		wantErr        bool
-		useMock        bool
-		mockStatusCode int
+		name    string
+		args    args
+		wantErr bool
+		mock    struct {
+			enabled bool
+			status  int
+		}
 	}{
 		{
 			name: "Plugin creation successful",
@@ -411,7 +433,13 @@ func TestNew(t *testing.T) {
 				},
 			},
 			wantErr: false,
-			useMock: true,
+			mock: struct {
+				enabled bool
+				status  int
+			}{
+				enabled: true,
+				status:  200,
+			},
 		},
 		{
 			name: "Configuration check failure",
@@ -440,7 +468,13 @@ func TestNew(t *testing.T) {
 				},
 			},
 			wantErr: true,
-			useMock: true,
+			mock: struct {
+				enabled bool
+				status  int
+			}{
+				enabled: true,
+				status:  200,
+			},
 		},
 		{
 			name: "Kuzzle ping failure",
@@ -469,14 +503,17 @@ func TestNew(t *testing.T) {
 				},
 			},
 			wantErr: true,
-			useMock: false,
+			mock: struct {
+				enabled bool
+				status  int
+			}{enabled: false},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.useMock {
+			if tt.mock.enabled {
 				defer gock.Off()
-				gock.New(tt.args.config.Kuzzle.Url).Get("/_publicApi").Reply(tt.mockStatusCode)
+				gock.New(tt.args.config.Kuzzle.Url).Get("/_publicApi").Reply(tt.mock.status)
 			}
 
 			_, err := New(tt.args.ctx, tt.args.next, tt.args.config, tt.args.name)

@@ -1,0 +1,99 @@
+version: "3.3"
+
+services:
+#------------------------------------------------------------------------------
+# Traefik proxy configured with plugin dev mode and Dashboard
+# NOTE: Only 'admin' user can access Traefik Dashboard
+#------------------------------------------------------------------------------
+  traefik:
+    image: "traefik:v2.3"
+    container_name: "traefik"
+    depends_on:
+      kuzzle:
+        condition: service_healthy
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--pilot.token=${TRAEFIK_PILOT_TOKEN}"
+      - "--experimental.plugins.traefik-kuzzle-auth.moduleName=github.com/alexandrebouthinon/traefik-kuzzle-auth"
+      - "--experimental.plugins.traefik-kuzzle-auth.version=v0.1.0"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.entrypoints=web"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=kuzzle-auth"
+      - "traefik.http.middlewares.kuzzle-auth.plugin.traefik-kuzzle-auth.kuzzle.url=http://kuzzle:7512"
+      - "traefik.http.middlewares.kuzzle-auth.plugin.traefik-kuzzle-auth.kuzzle.allowedUsers=admin"
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./:/plugins/go/src/github.com/alexandrebouthinon/traefik-kuzzle-auth"
+
+#------------------------------------------------------------------------------
+# Kuzzle server stack
+#------------------------------------------------------------------------------
+
+  kuzzle:
+    image: kuzzleio/kuzzle:2
+    ports:
+      - "7512:7512"
+      - "1883:1883"
+    cap_add:
+      - SYS_PTRACE
+    depends_on:
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://kuzzle:7512/_publicApi"]
+      timeout: 10s
+      interval: 10s
+      retries: 3
+    environment:
+      - kuzzle_services__storageEngine__client__node=http://elasticsearch:9200
+      - kuzzle_services__internalCache__node__host=redis
+      - kuzzle_services__memoryStorage__node__host=redis
+      - kuzzle_server__protocols__mqtt__enabled=true
+      - NODE_ENV=production
+
+  redis:
+    image: redis:5
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+  elasticsearch:
+    image: kuzzleio/elasticsearch:7.4.0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+    ulimits:
+      nofile: 65536
+
+#------------------------------------------------------------------------------
+# Secured application using plugin
+# NOTE: Users 'admin' and 'developer' can access this app
+#------------------------------------------------------------------------------
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.routers.whoami.middlewares=kuzzle-auth"
+      - "traefik.http.middlewares.kuzzle-auth.plugin.traefik-kuzzle-auth.kuzzle.url=http://kuzzle:7512"
+      - "traefik.http.middlewares.kuzzle-auth.plugin.traefik-kuzzle-auth.kuzzle.allowedUsers=admin,developer"

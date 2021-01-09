@@ -1,7 +1,7 @@
 displayName: Basic Auth powered by Kuzzle
 type: middleware
 import: github.com/alexandrebouthinon/traefik-kuzzle-auth
-summary: Traefik Basic Auth Plugin powered by Kuzzle
+summary: Traefik Basic Auth middleware powered by Kuzzle
 testData:
   customRealm: "Use a valid Kuzzle user to authenticate"
   kuzzle:
@@ -12,3 +12,4 @@ testData:
       getCurrentUser: /_me # With Kuzzle v1 you must use '/users/_me'
     allowedUsers:
       - admin
+      - developer

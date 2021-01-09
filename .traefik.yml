@@ -1,12 +1,14 @@
 displayName: Basic Auth powered by Kuzzle
 type: middleware
-import: github.com/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth
+import: github.com/alexandrebouthinon/traefik-kuzzle-auth
 summary: Traefik Basic Auth Plugin powered by Kuzzle
 testData:
-  basic-auth:
-    user: admin
-    password: aSimplePassword
+  customRealm: "Use a valid Kuzzle user to authenticate"
   kuzzle:
-    host: localhost
-    port: 7512
-    ssl: false
+    url: "http://localhost:7512"
+    routes:
+      ping: /_publicApi
+      login: /_login/local
+      getCurrentUser: /_me # With Kuzzle v1 you must use '/users/_me'
+    allowedUsers:
+      - admin

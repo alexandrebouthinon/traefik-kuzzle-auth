@@ -1,4 +1,4 @@
-module github.com/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth
+module github.com/alexandrebouthinon/traefik-kuzzle-auth
 
 go 1.15
 

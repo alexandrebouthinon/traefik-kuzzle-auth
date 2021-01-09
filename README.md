@@ -2,31 +2,26 @@
   <img src="https://user-images.githubusercontent.com/7868838/103894440-3a45f080-50ef-11eb-86a0-336682af6147.png"/>
 </p>
 <p align="center">
-    <a href="https://github.com/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth/actions?query=branch%3Amaster">
-        <img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth/master">
+    <a href="https://github.com/alexandrebouthinon/traefik-kuzzle-auth/actions?query=branch%3Amaster">
+        <img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/alexandrebouthinon/traefik-kuzzle-auth/master">
     </a>
-    <a href="https://codecov.io/gh/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth">
-        <img src="https://codecov.io/gh/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth/branch/master/graph/badge.svg?token=YZ8WADNYRH"/>
+    <a href="https://codecov.io/gh/alexandrebouthinon/traefik-kuzzle-auth">
+        <img src="https://codecov.io/gh/alexandrebouthinon/traefik-kuzzle-auth/branch/master/graph/badge.svg?token=YZ8WADNYRH"/>
     </a>
-    <a href="https://goreportcard.com/report/github.com/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth">
-        <img src="https://goreportcard.com/badge/github.com/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth"/>
+    <a href="https://goreportcard.com/report/github.com/alexandrebouthinon/traefik-kuzzle-auth">
+        <img src="https://goreportcard.com/badge/github.com/alexandrebouthinon/traefik-kuzzle-auth"/>
     </a>
-    <a href="https://github.com/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth/blob/master/LICENSE">
-        <img alt="GitHub" src="https://img.shields.io/github/license/alexandrebouthinon/traefik-plugin-kuzzle-basic-auth">
+    <a href="https://github.com/alexandrebouthinon/traefik-kuzzle-auth/blob/master/LICENSE">
+        <img alt="GitHub" src="https://img.shields.io/github/license/alexandrebouthinon/traefik-kuzzle-auth">
     </a>
 </p>
 
 ## What?
-This is a Traefik Plugin using Kuzzle as authentication provider for [Basic Auth Traefik middleware](https://doc.traefik.io/traefik/middlewares/basicauth/)
+This is a Traefik Basic Auth Plugin using Kuzzle as authentication provider.
 
 ## Why?
 
 One authentication system to rule them all. Kuzzle offer a complex and fine-grained RBAC authentication system, why do not use it everywhere? 
-
-## How it works?
-
-This plugin rely on [Basic Auth Traefik middleware](https://doc.traefik.io/traefik/middlewares/basicauth/).
-The principle is rather simple, configure the middleware with a single user/password pair by following its [documentation](https://doc.traefik.io/traefik/middlewares/basicauth/), add this information to the plugin configuration as well as the connection info to the Kuzzle server (`host`, `port`...) and.... that's it. Enjoy going to your applications hidden by Basic Auth using your Kuzzle user! :tada:
 
 ## What is Kuzzle?
 

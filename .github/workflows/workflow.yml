@@ -21,10 +21,9 @@ jobs:
         go version
         go get -u golang.org/x/lint/golint
 
-    - name: Run Vet & Lint
+    - name: Run Vet
       run: |
         go vet .
-        golint -set_exit_status=1 .
 
   build:
     name: Build with ${{ matrix.goVersion }} on ${{ matrix.os }}

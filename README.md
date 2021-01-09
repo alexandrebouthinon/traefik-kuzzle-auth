@@ -2,6 +2,7 @@
   <img src="https://user-images.githubusercontent.com/7868838/103894440-3a45f080-50ef-11eb-86a0-336682af6147.png"/>
 </p>
 <p align="center">
+    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/alexandrebouthinon/traefik-kuzzle-auth">
     <a href="https://github.com/alexandrebouthinon/traefik-kuzzle-auth/actions?query=branch%3Amaster">
         <img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/alexandrebouthinon/traefik-kuzzle-auth/master">
     </a>

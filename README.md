@@ -121,15 +121,16 @@ middlewares:
     [middlewares.your-well-named-middleware.plugin]
       [middlewares.your-well-named-middleware.plugin.traefik-kuzzle-auth]
         customRealm = "Use a valid Kuzzle user to authenticate" # optional
+        
         [middlewares.your-well-named-middleware.plugin.traefik-kuzzle-auth.kuzzle]
           url = "http://localhost:7512" # required
+          allowedUsers = ["admin", "developer"] # optional
+
           [middlewares.your-well-named-middleware.plugin.traefik-kuzzle-auth.kuzzle.routes] # optional
-            ping = /_publicApi
-            login = /_login/local
-            getCurrentUser = /_me # With Kuzzle v1 you must use '/users/_me'
-          [middlewares.your-well-named-middleware.plugin.traefik-kuzzle-auth.kuzzle.allowedUsers] # optional
-            - admin
-            - developer
+            ping = "/_publicApi"
+            login = "/_login/local"
+            getCurrentUser = "/_me" # With Kuzzle v1 you must use '/users/_me'
+
 ```
 
 **Docker Compose Labels**

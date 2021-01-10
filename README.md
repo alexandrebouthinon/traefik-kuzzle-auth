@@ -112,7 +112,7 @@ labels:
   - "traefik.http.middlewares.your-well-named-middleware.plugin.traefik-kuzzle-auth.kuzzle.url=http://kuzzle:7512" # required
   - "traefik.http.middlewares.your-well-named-middleware.plugin.traefik-kuzzle-auth.kuzzle.routes.login=/_login/local" # optional
   - "traefik.http.middlewares.your-well-named-middleware.plugin.traefik-kuzzle-auth.kuzzle.routes.getCurrentUser=/_me" # With Kuzzle v1 you must use '/users/_me' (optional)
-  - "traefik.http.middlewares.kuzzle-auth.plugin.traefik-kuzzle-auth.kuzzle.allowedUsers=admin,developer" # optional
+  - "traefik.http.middlewares.your-well-named-middleware.plugin.traefik-kuzzle-auth.kuzzle.allowedUsers=admin,developer" # optional
 ```
 
 ## Development

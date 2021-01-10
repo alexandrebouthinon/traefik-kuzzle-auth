@@ -2,6 +2,7 @@ package traefik_kuzzle_auth
 
 import (
 	"context"
+	"log"
 	"net/http"
 )
 
@@ -41,6 +42,7 @@ func (ka *KuzzleAuth) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if len(ka.config.Kuzzle.AllowedUsers) > 0 {
 		// Allowed Users have been specified
 		if err := ka.config.Kuzzle.checkUser(); err != nil {
+			log.Print(err)
 			// Logged user do not be part of the configured Allowed Users
 			rw.Header().Set("WWW-Authenticate", `Basic realm="`+ka.config.CustomRealm+`"`)
 			http.Error(rw, "Unauthorized.", http.StatusUnauthorized)

@@ -13,7 +13,6 @@ services:
         condition: service_healthy
     command:
       - "--api.dashboard=true"
-      - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
@@ -25,9 +24,9 @@ services:
       - "traefik.http.routers.dashboard.entrypoints=web"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.middlewares=kuzzle-auth"
-      - "traefik.http.middlewares.kuzzle-auth.plugin.dev.kuzzle.url=http://kuzzle:7512"
-      - "traefik.http.middlewares.kuzzle-auth.plugin.dev.kuzzle.allowedUsers=admin"
+      - "traefik.http.routers.dashboard.middlewares=kuzzle-auth-dashboard"
+      - "traefik.http.middlewares.kuzzle-auth-dashboard.plugin.dev.kuzzle.url=http://kuzzle:7512"
+      - "traefik.http.middlewares.kuzzle-auth-dashboard.plugin.dev.kuzzle.allowedUsers=admin"
     ports:
       - "80:80"
     volumes:
@@ -94,6 +93,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
       - "traefik.http.routers.whoami.entrypoints=web"
-      - "traefik.http.routers.whoami.middlewares=kuzzle-auth"
-      - "traefik.http.middlewares.kuzzle-auth.plugin.dev.kuzzle.url=http://kuzzle:7512"
-      - "traefik.http.middlewares.kuzzle-auth.plugin.dev.kuzzle.allowedUsers=admin,developer"
+      - "traefik.http.routers.whoami.middlewares=kuzzle-auth-whoami"
+      - "traefik.http.middlewares.kuzzle-auth-whoami.plugin.dev.kuzzle.url=http://kuzzle:7512"
+      - "traefik.http.middlewares.kuzzle-auth-whoami.plugin.dev.kuzzle.allowedUsers=admin,developer"

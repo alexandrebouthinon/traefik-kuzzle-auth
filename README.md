@@ -58,9 +58,9 @@ You can found a demonstration Docker Compose file (`docker-compose.demo.yml`) in
 TRAEFIK_PILOT_TOKEN="xxxx" docker-compose -f docker-compose.demo.yml up -d
 ```
 This will launch:
-* A complete Kuzzle stack (Kuzzle, Elasticsearch and Redis containers)
-* A Traefik instance with dashboard and latest released plugin version enabled and only available using `admin` Kuzzle user
-* A `whoami` instance available using both `admin` and `developer` Kuzzle users
+* A complete [Kuzzle stack](http://localhost:7512) (Kuzzle, Elasticsearch and Redis containers).
+* A Traefik instance with [dashboard](http://traefik.localhost) and latest released plugin version enabled and only available using `admin` Kuzzle user
+* A [`whoami` instance](http://whoami.localhost) available using both `admin` and `developer` Kuzzle users
 
 Once all containers are started and healthy, you can use the [Kuzzle Admin Console](https://next-console.kuzzle.io) to create your users (`admin` and `developer`).
 
@@ -151,9 +151,9 @@ You can found a development Docker Compose file (`docker-compose.dev.yml`) in th
 TRAEFIK_PILOT_TOKEN="xxxx" docker-compose -f docker-compose.dev.yml up -d
 ```
 This will launch:
-* A complete Kuzzle stack (Kuzzle, Elasticsearch and Redis containers)
-* A Traefik instance with dashboard and local plugin enabled and only available using `admin` Kuzzle user
-* A `whoami` instance available using both `admin` and `developer` Kuzzle users
+* A complete [Kuzzle stack](http://localhost:7512) (Kuzzle, Elasticsearch and Redis containers).
+* A Traefik instance with [dashboard](http://traefik.localhost) and latest released plugin version enabled and only available using `admin` Kuzzle user
+* A [`whoami` instance](http://whoami.localhost) available using both `admin` and `developer` Kuzzle users
 
 Once all containers are started and healthy, you can use the [Kuzzle Admin Console](https://next-console.kuzzle.io) to create your users (`admin` and `developer`).
 

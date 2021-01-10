@@ -1,57 +1,31 @@
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/7868838/103894440-3a45f080-50ef-11eb-86a0-336682af6147.png"/>
-</p>
-<p align="center">
-    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/alexandrebouthinon/traefik-kuzzle-auth">
-    <a href="https://github.com/alexandrebouthinon/traefik-kuzzle-auth/actions?query=branch%3Amaster">
-        <img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/alexandrebouthinon/traefik-kuzzle-auth/master">
-    </a>
-    <a href="https://codecov.io/gh/alexandrebouthinon/traefik-kuzzle-auth">
-        <img src="https://codecov.io/gh/alexandrebouthinon/traefik-kuzzle-auth/branch/master/graph/badge.svg?token=YZ8WADNYRH"/>
-    </a>
-    <a href="https://goreportcard.com/report/github.com/alexandrebouthinon/traefik-kuzzle-auth">
-        <img src="https://goreportcard.com/badge/github.com/alexandrebouthinon/traefik-kuzzle-auth"/>
-    </a>
-    <a href="https://github.com/alexandrebouthinon/traefik-kuzzle-auth/blob/master/LICENSE">
-        <img alt="GitHub" src="https://img.shields.io/github/license/alexandrebouthinon/traefik-kuzzle-auth">
-    </a>
-</p>
+# Traefik plugin: Kuzzle Auth
 
-<!-- TOC -->
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/alexandrebouthinon/traefik-kuzzle-auth)
+![GitHub branch checks state](https://img.shields.io/github/checks-status/alexandrebouthinon/traefik-kuzzle-auth/master)
+[![codecov](https://codecov.io/gh/alexandrebouthinon/traefik-kuzzle-auth/branch/master/graph/badge.svg?token=YZ8WADNYRH)](https://codecov.io/gh/alexandrebouthinon/traefik-kuzzle-auth)
+[![Go Report Card](https://goreportcard.com/badge/github.com/alexandrebouthinon/traefik-kuzzle-auth)](https://goreportcard.com/report/github.com/alexandrebouthinon/traefik-kuzzle-auth)
+![GitHub](https://img.shields.io/github/license/alexandrebouthinon/traefik-kuzzle-auth)
 
-- [What?](#what)
-- [Why?](#why)
-- [How?](#how)
-  - [Prerequisites](#prerequisites)
-  - [Demo](#demo)
-  - [Installation](#installation)
-  - [Configuration](#configuration)
-- [Development](#development)
-- [Roadmap](#roadmap)
-- [What is Kuzzle?](#what-is-kuzzle)
-
-<!-- /TOC -->
-
-# What?
+## What?
 This is a Traefik Basic Auth Plugin using Kuzzle as authentication provider.
 
-# Why?
+## Why?
 
 *One authentication system to rule them all* :sunglasses:
 
 Kuzzle offer a complex and fine-grained RBAC authentication system, why do not use it everywhere? 
 
 
-# How?
+## How?
 > :warning: At this time, Traefik Plugin system is still an experimental feature use it with caution. You can freeze your Traefik version to increase stability if you want to use this plugin on a real world use case
 
-## Prerequisites
+### Prerequisites
 
 * A valid [Traefik Pilot](https://pilot.traefik.io) token for your Traefik instance.
 * A running Kuzzle server in which one or more users are configured.
 
 
-## Demo
+### Demo
 You can found a demonstration Docker Compose file (`docker-compose.demo.yml`) in the repository root. 
 
 ```shell
@@ -64,7 +38,7 @@ This will launch:
 
 Once all containers are started and healthy, you can use the [Kuzzle Admin Console](https://next-console.kuzzle.io) to create your users (`admin` and `developer`).
 
-## Installation
+### Installation
 Declare it in the Traefik configuration:
 
 **YAML**
@@ -94,7 +68,7 @@ experimental:
 --experimental.plugins.traefik-kuzzle-auth.version=v0.1.0
 ```
 
-## Configuration
+### Configuration
 
 **YAML**
 ```yaml
@@ -141,7 +115,7 @@ labels:
   - "traefik.http.middlewares.kuzzle-auth.plugin.traefik-kuzzle-auth.kuzzle.allowedUsers=admin,developer" # optional
 ```
 
-# Development
+## Development
 You can found a development Docker Compose file (`docker-compose.dev.yml`) in the repository root. 
 
 ```shell
@@ -154,7 +128,7 @@ This will launch:
 
 Once all containers are started and healthy, you can use the [Kuzzle Admin Console](https://next-console.kuzzle.io) to create your users (`admin` and `developer`).
 
-# Roadmap
+## Roadmap
 
 - [x] [Users](https://docs.kuzzle.io/core/2/guides/main-concepts/permissions/#users) greenlisting
 - [ ] [Profiles](https://docs.kuzzle.io/core/2/guides/main-concepts/permissions/#profiles) greenlisting
@@ -162,7 +136,7 @@ Once all containers are started and healthy, you can use the [Kuzzle Admin Conso
 
 New ideas are welcome, feel free to fill out an issue and let's discuss it :wink:
 
-# What is Kuzzle?
+## What is Kuzzle?
 
 Kuzzle is a [generic backend](https://docs.kuzzle.io/core/2/guides/introduction/general-purpose-backend/) offering **the basic building blocks common to every application**.
 

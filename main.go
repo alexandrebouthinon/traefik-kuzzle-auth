@@ -2,7 +2,6 @@ package traefik_kuzzle_auth
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 )
 
@@ -15,10 +14,6 @@ type KuzzleAuth struct {
 
 // New created a new KuzzleBasicAuth plugin.
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
-	if err := config.Kuzzle.ping(); err != nil {
-		return nil, fmt.Errorf("Unable to reach Kuzzle server at %s: %v", config.Kuzzle.URL, err)
-	}
-
 	return &KuzzleAuth{
 		next:   next,
 		name:   name,

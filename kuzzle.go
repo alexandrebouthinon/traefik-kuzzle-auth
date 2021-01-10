@@ -10,11 +10,6 @@ import (
 
 // Routes used to request Kuzzle, can be customized
 type Routes struct {
-	// Ping route used to test configured Kuzzle server reachability.
-	// The specified route must return 200 HTTP status code when called by anonymous user.
-	// Default is '/_publicApi' (see: https://docs.kuzzle.io/core/2/api/controllers/server/public-api/).
-	// You would like to modify this route if you performed security adjustement on your Kuzzle Server
-	Ping string `yaml:"ping,omitempty"`
 	// Login route used to log in to Kuzzle using Auth Basic user/pass.
 	// The specified route must return 200 HTTP status code and a valid JWT when called by anonymous user.
 	// Default is '/_login/local' (see: https://docs.kuzzle.io/core/2/api/controllers/auth/login/)
@@ -47,17 +42,6 @@ type Kuzzle struct {
 	// NOTE: The user you used to log in need to be able to call `auth:getCurrentUser` Kuzzle API route
 	AllowedUsers []string `yaml:"allowedUsers,omitempty"`
 	JWT          string
-}
-
-func (k *Kuzzle) ping() error {
-	url := fmt.Sprintf("%s%s", k.URL, k.Routes.Ping)
-	_, err := http.Get(url)
-
-	if err != nil {
-		return fmt.Errorf("Ping request send to %s failed: %v", url, err)
-	}
-
-	return nil
 }
 
 func (k *Kuzzle) login(user string, password string) error {

@@ -17,10 +17,6 @@ func (c *Config) addMissingFields() *Config {
 		c.CustomRealm = "Use a valid Kuzzle user to authenticate"
 	}
 
-	if c.Kuzzle.Routes.Ping == "" {
-		c.Kuzzle.Routes.Ping = "/_publicApi"
-	}
-
 	if c.Kuzzle.Routes.Login == "" {
 		c.Kuzzle.Routes.Login = "/_login/local"
 	}

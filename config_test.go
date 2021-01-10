@@ -21,7 +21,6 @@ func TestConfig_addMissingFields(t *testing.T) {
 				Kuzzle: Kuzzle{
 					URL: "http://kuzzle:7512",
 					Routes: Routes{
-						Ping:           "/_publicApi",
 						Login:          "/_login/local",
 						GetCurrentUser: "/_me",
 					},
@@ -33,7 +32,6 @@ func TestConfig_addMissingFields(t *testing.T) {
 				Kuzzle: Kuzzle{
 					URL: "http://kuzzle:7512",
 					Routes: Routes{
-						Ping:           "/_publicApi",
 						Login:          "/_login/local",
 						GetCurrentUser: "/_me",
 					},
@@ -54,7 +52,6 @@ func TestConfig_addMissingFields(t *testing.T) {
 				Kuzzle: Kuzzle{
 					URL: "http://kuzzle:7512",
 					Routes: Routes{
-						Ping:           "/_publicApi",
 						Login:          "/_login/local",
 						GetCurrentUser: "/_me",
 					},

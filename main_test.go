@@ -28,45 +28,20 @@ func TestNew(t *testing.T) {
 			args: args{
 				config: &Config{
 					Kuzzle: Kuzzle{
-						URL: "http://kuzzle:7512",
-						Routes: Routes{
-							Ping: "/_publicApi",
-						},
+						URL:    "http://kuzzle:7512",
+						Routes: Routes{},
 					},
 				},
 			},
 			want: &KuzzleAuth{
 				config: &Config{
 					Kuzzle: Kuzzle{
-						URL: "http://kuzzle:7512",
-						Routes: Routes{
-							Ping: "/_publicApi",
-						},
+						URL:    "http://kuzzle:7512",
+						Routes: Routes{},
 					},
 				},
 			},
 			wantErr: false,
-			mock: Mock{
-				enabled:    true,
-				statusCode: 200,
-				url:        "http://kuzzle:7512",
-				route:      "/_publicApi",
-			},
-		},
-		{
-			name: "Kuzzle server ping failure",
-			args: args{
-				config: &Config{
-					Kuzzle: Kuzzle{
-						URL: "http://kuzzle:7512",
-						Routes: Routes{
-							Ping: "/_publicApi",
-						},
-					},
-				},
-			},
-			want:    nil,
-			wantErr: true,
 		},
 	}
 	for _, tt := range tests {

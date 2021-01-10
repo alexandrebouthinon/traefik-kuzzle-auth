@@ -2,6 +2,7 @@ displayName: Basic Auth powered by Kuzzle
 type: middleware
 import: github.com/alexandrebouthinon/traefik-kuzzle-auth
 summary: Traefik Basic Auth middleware powered by Kuzzle
+iconPath: assets/icon.png
 testData:
   customRealm: "Use a valid Kuzzle user to authenticate"
   kuzzle:
